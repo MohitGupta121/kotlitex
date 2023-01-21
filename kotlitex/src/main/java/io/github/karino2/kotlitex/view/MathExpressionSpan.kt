@@ -15,7 +15,7 @@ import kotlin.math.absoluteValue
 import kotlin.math.max
 import kotlin.math.roundToInt
 
-private class MathExpressionDrawable(expr: String, baseSize: Float, val fontLoader: FontLoader, val isMathMode: Boolean, val drawBounds: Boolean = false) {
+private class MathExpressionDrawable(expr: String, baseSize: Float, val fontLoader: FontLoader, val isMathMode: Boolean, val drawBounds: Boolean = false, val color: String) {
     var rootNode: VerticalList
 
     val firstVListRowBound: Bounds?
@@ -37,7 +37,7 @@ private class MathExpressionDrawable(expr: String, baseSize: Float, val fontLoad
         val parser = Parser(expr)
         val parsed = parser.parse()
         val nodes = RenderTreeBuilder.buildHTML(parsed, options)
-        val builder = VirtualNodeBuilder(nodes, baseSize.toDouble(), fontLoader)
+        val builder = VirtualNodeBuilder(nodes, baseSize.toDouble(), fontLoader, color)
         rootNode = builder.build()
     }
 
@@ -219,7 +219,7 @@ private class MathExpressionDrawable(expr: String, baseSize: Float, val fontLoad
 
 // Similar to DynamicDrawableSpan, but getSize is a little different.
 // I create super class of DynamicDrawableSpan because getCachedDrawable is private and we neet it.
-class MathExpressionSpan(val expr: String, val baseHeight: Float, val assetManager: AssetManager, val isMathMode: Boolean) : ReplacementSpan() {
+class MathExpressionSpan(val expr: String, val baseHeight: Float, val assetManager: AssetManager, val isMathMode: Boolean, val color: String) : ReplacementSpan() {
     enum class Align {
         Bottom, BaseLine
     }
@@ -362,7 +362,7 @@ class MathExpressionSpan(val expr: String, val baseHeight: Float, val assetManag
         // TODO: drawBounds should be always false. Unlike baseSize, we don't have to expose the flag to end-users.
         val drawable = MathExpressionDrawable(
             expr, baseHeight,
-            AndroidFontLoader(assetManager), isMathMode, drawBounds = false
+            AndroidFontLoader(assetManager), isMathMode, drawBounds = false, color
         )
         return drawable
     }
