@@ -51,7 +51,7 @@ data class RenderingState(
         klasses = emptySet(),
         mspace = 0.0,
         pstrut = 0.0,
-        color = "black"
+        color = "white"
     )
 
     fun withResetMargin(): RenderingState {
