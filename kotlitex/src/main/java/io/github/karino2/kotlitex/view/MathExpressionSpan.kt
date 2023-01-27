@@ -43,7 +43,7 @@ private class MathExpressionDrawable(expr: String, baseSize: Float, val fontLoad
 
     val paint = Paint()
     val textPaint = TextPaint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = Color.BLACK
+        color = Color.RED
         typeface = Typeface.SERIF
     }
 
@@ -117,7 +117,7 @@ private class MathExpressionDrawable(expr: String, baseSize: Float, val fontLoad
                 drawBounds(drawableSurface, parent.bounds)
             }
             is HorizontalLineNode -> {
-                paint.color = Color.BLACK
+                paint.color = Color.RED
                 paint.strokeWidth = max(1.0f, parent.bounds.height.toFloat())
                 val x = translateX(parent.bounds.x)
                 val y = translateY(parent.bounds.y)
@@ -156,7 +156,7 @@ private class MathExpressionDrawable(expr: String, baseSize: Float, val fontLoad
                 mat.postTranslate(x, y)
 
                 // TODO: more suitable handling.
-                paint.color = Color.BLACK
+                paint.color = Color.RED
                 paint.strokeWidth = 2.0f
                 paint.style = Paint.Style.FILL_AND_STROKE
 
