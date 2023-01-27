@@ -14,8 +14,8 @@ import io.github.karino2.kotlitex.renderer.node.TextNode
 import io.github.karino2.kotlitex.renderer.node.VerticalList
 import io.github.karino2.kotlitex.renderer.node.VerticalListRow
 
-class VirtualNodeBuilder(val children: List<RenderNode>, baseSize: Double, val fontLoader: FontLoader, val color: String) {
-    var state: RenderingState = RenderingState().copy(baseSize = baseSize, color = color)
+class VirtualNodeBuilder(val children: List<RenderNode>, baseSize: Double, val fontLoader: FontLoader) {
+    var state: RenderingState = RenderingState().copy(baseSize = baseSize)
 
     fun build(): VerticalList {
         val row = VerticalListRow(emptySet())

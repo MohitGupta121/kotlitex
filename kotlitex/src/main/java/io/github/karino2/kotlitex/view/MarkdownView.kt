@@ -107,7 +107,7 @@ class SpannableMathSpanHandler(val assetManager: AssetManager, val baseSize: Flo
     private fun appendMathSpan(exp: String, isMathMode: Boolean) {
         isMathExist = true
         val size = if (isMathMode) mathExpressionSize else baseSize
-        val span = MathExpressionSpan(exp, size, assetManager, isMathMode, color = "black")
+        val span = MathExpressionSpan(exp, size, assetManager, isMathMode)
         span.ensureDrawable()
         val begin = spannable.length
         spannable.append("\$\$${exp}\$\$")

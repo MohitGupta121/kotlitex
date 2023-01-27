@@ -15,7 +15,7 @@ import kotlin.math.absoluteValue
 import kotlin.math.max
 import kotlin.math.roundToInt
 
-private class MathExpressionDrawable(expr: String, baseSize: Float, val fontLoader: FontLoader, val isMathMode: Boolean, val drawBounds: Boolean = false, val color: String) {
+private class MathExpressionDrawable(expr: String, baseSize: Float, val fontLoader: FontLoader, val isMathMode: Boolean, val drawBounds: Boolean = false) {
     var rootNode: VerticalList
 
     val firstVListRowBound: Bounds?
@@ -37,13 +37,13 @@ private class MathExpressionDrawable(expr: String, baseSize: Float, val fontLoad
         val parser = Parser(expr)
         val parsed = parser.parse()
         val nodes = RenderTreeBuilder.buildHTML(parsed, options)
-        val builder = VirtualNodeBuilder(nodes, baseSize.toDouble(), fontLoader, color)
+        val builder = VirtualNodeBuilder(nodes, baseSize.toDouble(), fontLoader)
         rootNode = builder.build()
     }
 
     val paint = Paint()
     val textPaint = TextPaint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = Color.WHITE
+        color = Color.BLACK
         typeface = Typeface.SERIF
     }
 
@@ -117,7 +117,7 @@ private class MathExpressionDrawable(expr: String, baseSize: Float, val fontLoad
                 drawBounds(drawableSurface, parent.bounds)
             }
             is HorizontalLineNode -> {
-                paint.color = Color.WHITE
+                paint.color = Color.BLACK
                 paint.strokeWidth = max(1.0f, parent.bounds.height.toFloat())
                 val x = translateX(parent.bounds.x)
                 val y = translateY(parent.bounds.y)
@@ -156,7 +156,7 @@ private class MathExpressionDrawable(expr: String, baseSize: Float, val fontLoad
                 mat.postTranslate(x, y)
 
                 // TODO: more suitable handling.
-                paint.color = Color.WHITE
+                paint.color = Color.BLACK
                 paint.strokeWidth = 2.0f
                 paint.style = Paint.Style.FILL_AND_STROKE
 
@@ -219,7 +219,7 @@ private class MathExpressionDrawable(expr: String, baseSize: Float, val fontLoad
 
 // Similar to DynamicDrawableSpan, but getSize is a little different.
 // I create super class of DynamicDrawableSpan because getCachedDrawable is private and we neet it.
-class MathExpressionSpan(val expr: String, val baseHeight: Float, val assetManager: AssetManager, val isMathMode: Boolean, val color: String) : ReplacementSpan() {
+class MathExpressionSpan(val expr: String, val baseHeight: Float, val assetManager: AssetManager, val isMathMode: Boolean) : ReplacementSpan() {
     enum class Align {
         Bottom, BaseLine
     }
@@ -362,7 +362,7 @@ class MathExpressionSpan(val expr: String, val baseHeight: Float, val assetManag
         // TODO: drawBounds should be always false. Unlike baseSize, we don't have to expose the flag to end-users.
         val drawable = MathExpressionDrawable(
             expr, baseHeight,
-            AndroidFontLoader(assetManager), isMathMode, drawBounds = false, color = color
+            AndroidFontLoader(assetManager), isMathMode, drawBounds = false
         )
         return drawable
     }
