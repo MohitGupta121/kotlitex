@@ -236,6 +236,11 @@ class MathExpressionSpan(val expr: String, val baseHeight: Float, val assetManag
         return getSizeInternal(fm)
     }
 
+    @JvmName("getEquationColor1")
+    fun getEquationColor(): Int {
+        return equationColor
+    }
+
     var isError = false
 
     private fun getSizeInternal(fm: Paint.FontMetricsInt?): Int {
